@@ -58,7 +58,10 @@ $severity-low: #3fb950;
     flex-direction: column;
     justify-content: space-between;
     gap: 0.25rem;
-    
+
+
+
+
     &__label {
         font-size: 0.7rem;
         font-weight: 600;
@@ -116,6 +119,14 @@ $severity-low: #3fb950;
     max-height: calc(100vh - 3rem);
     padding-bottom: 5rem;
     align-items: flex-start;
+
+
+
+
+
+
+
+
     section {
         min-height: 100%;
     }
