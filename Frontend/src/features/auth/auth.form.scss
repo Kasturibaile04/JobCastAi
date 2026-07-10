@@ -1,0 +1,114 @@
+$bg-dark: #09090b;
+$accent-pink: #f43f5e;
+$accent-purple: #8b5cf6;
+$text-light: #f4f4f5;
+$text-dim: #a1a1aa;
+
+main {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-dark;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 50% -20%, rgba($accent-pink, 0.12), transparent),
+    radial-gradient(ellipse 40% 30% at 50% 60%, rgba($accent-purple, 0.08), transparent);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  .form-container {
+    width: 90%;
+    max-width: 420px;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    background-color: #121214;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box;
+
+    h1 {
+      text-align: center;
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $text-light;
+    }
+
+    p {
+      text-align: center;
+      margin: 0;
+      font-size: 0.875rem;
+      color: $text-dim;
+    }
+
+    a {
+      color: $accent-pink;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: lighten($accent-pink, 8%);
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: $text-dim;
+      letter-spacing: 0.02em;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: $text-light;
+      border-radius: 0.5rem;
+      outline: none;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      &:focus {
+        border-color: $accent-pink;
+        box-shadow: 0 0 10px rgba($accent-pink, 0.15);
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+
+  button[type="submit"] {
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 0 15px rgba($accent-pink, 0.3);
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 0 25px rgba($accent-pink, 0.5);
+    }
+  }
+}
