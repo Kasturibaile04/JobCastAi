@@ -60,9 +60,7 @@ $severity-low: #3fb950;
     gap: 0.25rem;
 
 
-
-
-    &__label {
+&__label {
         font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -120,14 +118,7 @@ $severity-low: #3fb950;
     padding-bottom: 5rem;
     align-items: flex-start;
 
-
-
-
-
-
-
-
-    section {
+section {
         min-height: 100%;
     }
 }
@@ -172,7 +163,7 @@ $severity-low: #3fb950;
     transition: border-color 0.2s;
 
     &:hover {
-        border-color: lighten($border-color, 8%);
+        border-color: $accent;
     }
 
     &__header {
