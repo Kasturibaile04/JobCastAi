@@ -15,11 +15,22 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
+        // Basic validation
+        if (!email.trim() || !password.trim()) {
+            setError("Please fill in all fields.");
+            return;
+        }
+
         try {
             await handleLogin({ email, password });
             navigate("/dashboard");
         } catch (err) {
-            setError(err?.response?.data?.message || "Login failed. Please check your credentials.");
+            // Better error handling - show backend message or fallback
+            const message = err?.response?.data?.message 
+                || err?.message 
+                || "Login failed. Please check your credentials.";
+            setError(message);
         }
     }
 
@@ -34,13 +45,28 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
-                        <input onChange={(e) => { setEmail(e.target.value) }}
-                            type="email" id="email" name="email" placeholder='Enter your email' value={email} />
+                        <input 
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder='Enter your email' 
+                            value={email} 
+                            required
+                        />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
-                        <input onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name="password" placeholder='Enter your password' value={password} />
+                        <input 
+                            onChange={(e) => setPassword(e.target.value)}
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder='Enter your password' 
+                            value={password} 
+                            required
+                            minLength={6}
+                        />
                     </div>
                     {error && <p className="error-text">{error}</p>}
                     <button className="button primary-button" type="submit">Login</button>

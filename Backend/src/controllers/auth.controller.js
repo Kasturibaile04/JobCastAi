@@ -42,7 +42,6 @@ const registerUserController = async (req, res) => {
             { expiresIn: "1d" }
         );
 
-        // Fixed cookie parameters for cross-domain stability
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -51,7 +50,7 @@ const registerUserController = async (req, res) => {
 
         return res.status(201).json({
             message: "User registered successfully",
-            token, // <-- ADDED: Send token in JSON body
+            token,
             user: {
                 id: user._id,
                 username: user.username,
@@ -104,7 +103,6 @@ const LoginUserController = async (req, res) => {
             { expiresIn: "1d" }
         );
 
-        // Fixed cookie parameters for cross-domain stability
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -113,7 +111,7 @@ const LoginUserController = async (req, res) => {
 
         return res.status(200).json({
             message: "User logged in successfully",
-            token, // <-- ADDED: Send token in JSON body
+            token,
             user: {
                 id: user._id,
                 username: user.username,
@@ -135,20 +133,28 @@ const LoginUserController = async (req, res) => {
  * @access Private
  */
 const LogoutUserController = async (req, res) => {
-    // Check both cookie and authorization header for blacklist
-    let token = req.cookies?.token;
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
-        token = req.headers.authorization.split(" ")[1];
-    }
+    try {
+        let token = req.cookies?.token;
+        
+        if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+            token = req.headers.authorization.split(" ")[1];
+        }
 
-    if (token) {
-        await tokenBlacklistModel.create({ token });
+        if (token) {
+            await tokenBlacklistModel.create({ token });
+        }
+        
+        res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
+        
+        return res.status(200).json({
+            message: "User logged out successfully"
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: error.message
+        });
     }
-    
-    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
-    res.status(200).json({
-        message: "User Logged out successfully"
-    });
 };
 
 /**
@@ -157,15 +163,29 @@ const LogoutUserController = async (req, res) => {
  * @access Private
  */
 const getMeController = async (req, res) => {
-    const user = await userModel.findById(req.user.id);
-    return res.status(200).json({
-        message: "User details fetched successfully",
-        user: {
-            id: user._id,
-            username: user.username,
-            email: user.email
+    try {
+        const user = await userModel.findById(req.user.id);
+        
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
         }
-    });
+        
+        return res.status(200).json({
+            message: "User details fetched successfully",
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: error.message
+        });
+    }
 };
 
 module.exports = {
