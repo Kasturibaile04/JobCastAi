@@ -10,11 +10,7 @@ JobCastAi analyzes a target job description alongside your resume (or a quick se
 
 ## Why I Built This
 
-Most PM portfolios lean on teardown decks and feature-suggestion PDFs that prove someone can *think* about products, not build them. JobCastAi is a full-stack, shipped product — real users can paste a job description, upload a resume, and walk away with a concrete, AI-generated prep plan.
-
-**The problem:** Candidates prep generically — LeetCode grinding, generic "top 50 questions" lists — instead of preparing for the specific role and company in front of them.
-
-**The solution:** Feed the actual job description and the candidate's actual background into an LLM, and generate role-specific technical questions, behavioral questions with model answers, a skill-gap breakdown, and a structured study plan.
+Feed the actual job description and the candidate's actual background into an LLM, and generate role-specific technical questions, behavioral questions with model answers, a skill-gap breakdown, and a structured study plan.
 
 ---
 
