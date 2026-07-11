@@ -37,20 +37,21 @@ const registerUserController = async (req, res) => {
         });
 
         const token = jwt.sign(
-            {
-                id: user._id,
-                username: user.username
-            },
+            { id: user._id, username: user.username },
             process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
+            { expiresIn: "1d" }
         );
 
-        res.cookie("token", token);
+        // Fixed cookie parameters for cross-domain stability
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        });
 
         return res.status(201).json({
             message: "User registered successfully",
+            token, // <-- ADDED: Send token in JSON body
             user: {
                 id: user._id,
                 username: user.username,
@@ -89,10 +90,7 @@ const LoginUserController = async (req, res) => {
             });
         }
 
-        const isPasswordValid = await bcrypt.compare(
-            password,
-            user.password
-        );
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             return res.status(400).json({
@@ -101,20 +99,21 @@ const LoginUserController = async (req, res) => {
         }
 
         const token = jwt.sign(
-            {
-                id: user._id,
-                username: user.username
-            },
+            { id: user._id, username: user.username },
             process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
+            { expiresIn: "1d" }
         );
 
-        res.cookie("token", token);
+        // Fixed cookie parameters for cross-domain stability
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        });
 
         return res.status(200).json({
             message: "User logged in successfully",
+            token, // <-- ADDED: Send token in JSON body
             user: {
                 id: user._id,
                 username: user.username,
@@ -135,17 +134,21 @@ const LoginUserController = async (req, res) => {
  * @description Logout a user
  * @access Private
  */
-
 const LogoutUserController = async (req, res) => {
-    const token = req.cookies.token;
+    // Check both cookie and authorization header for blacklist
+    let token = req.cookies?.token;
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+        token = req.headers.authorization.split(" ")[1];
+    }
 
     if (token) {
-        await tokenBlacklistModel.create({ token })
+        await tokenBlacklistModel.create({ token });
     }
-    res.clearCookie("token");
+    
+    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
     res.status(200).json({
         message: "User Logged out successfully"
-    })
+    });
 };
 
 /**
@@ -153,9 +156,8 @@ const LogoutUserController = async (req, res) => {
  * @description get current logged in user details
  * @access Private
  */
-
 const getMeController = async (req, res) => {
-    const user = await userModel.findById(req.user.id)
+    const user = await userModel.findById(req.user.id);
     return res.status(200).json({
         message: "User details fetched successfully",
         user: {
@@ -163,8 +165,7 @@ const getMeController = async (req, res) => {
             username: user.username,
             email: user.email
         }
-    })
-
+    });
 };
 
 module.exports = {
