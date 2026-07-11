@@ -4,6 +4,8 @@
 
 JobCastAi analyzes a target job description alongside your resume (or a quick self-description) and generates a personalized interview prep plan — technical questions, behavioral questions, a skill-gap analysis, and a day-by-day study roadmap — in under a minute.
 
+**website link : https://job-cast-ai-frontend.vercel.app/**
+
 ---
 
 ## Why I Built This
