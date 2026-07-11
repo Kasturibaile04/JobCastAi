@@ -1,9 +1,8 @@
 import axios from "axios";
 const api = axios.create({
-    baseURL: "https://jobcastai.onrender.com/api",
+    baseURL: "https://jobcastai.onrender.com",
     withCredentials: true,
 })
-
 
 /**
  * @description Generates an interview report based on the provided job description, self-description, and resume.
