@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
         element: <Landing />
     },
     {
-        path: "/Home",
+        path: "/dashboard",
         element: <Protected><Home /></Protected>
     },
     {
