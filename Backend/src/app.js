@@ -5,7 +5,7 @@ const cors = require("cors")
 const app = express()
 
 app.use(cors({
-    origin: "https://jobcast-frontend.onrender.com",
+    origin: "https://job-cast-ai-frontend.vercel.app",
     credentials: true
 }))
 
