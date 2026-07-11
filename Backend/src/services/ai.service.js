@@ -1,6 +1,4 @@
 const { GoogleGenAI } = require("@google/genai");
-// const { ZodToJsonSchema } = require("zod-to-json-schema");
-// const { z } = require("zod");
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_API_KEY
@@ -20,11 +18,11 @@ const interviewReportJsonSchema = {
                 type: "object",
                 properties: {
                     question: { type: "string", description: "The question, 1 line" },
-                    intenstion: { type: "string", description: "Why this question is asked, 1 line" },
+                    intention: { type: "string", description: "Why this question is asked, 1 line" }, // Fixed spelling
                     answer: { type: "string", description: "How to answer, max 3 lines" },
                     feedback: { type: "string", description: "Feedback on the answer, max 2 lines" }
                 },
-                required: ["question", "intenstion", "answer", "feedback"]
+                required: ["question", "intention", "answer", "feedback"] // Fixed spelling
             }
         },
         behavioralQuestions: {
@@ -34,11 +32,11 @@ const interviewReportJsonSchema = {
                 type: "object",
                 properties: {
                     question: { type: "string", description: "The question, 1 line" },
-                    intenstion: { type: "string", description: "Why this question is asked, 1 line" },
+                    intention: { type: "string", description: "Why this question is asked, 1 line" }, // Fixed spelling
                     answer: { type: "string", description: "How to answer, max 3 lines" },
                     feedback: { type: "string", description: "Feedback on the answer, max 2 lines" }
                 },
-                required: ["question", "intenstion", "answer", "feedback"]
+                required: ["question", "intention", "answer", "feedback"] // Fixed spelling
             }
         },
         skillGaps: {
@@ -75,7 +73,6 @@ const interviewReportJsonSchema = {
     required: ["matchScore", "technicalQuestions", "behavioralQuestions", "skillGaps", "preparationPlan", "title"]
 };
 
-
 async function generateInterviewReport({ jobDescription, resume, selfDescription }) {
     const MAX_RETRIES = 3;
     let lastError;
@@ -96,12 +93,13 @@ Analyze the candidate's resume and self-description against the job description 
 **Candidate Resume:** ${resume}
 **Candidate Self-Description:** ${selfDescription}
 
-Generate:
-1. matchScore: number 0-100.
-2. technicalQuestions (3-5): question in 1 line, answer in max 3 lines, feedback in max 2 lines.
-3. behavioralQuestions (3-5): question in 1 line, answer in max 3 lines, feedback in max 2 lines.
-4. skillGaps: skill name + severity (low/medium/high), no explanations.
-5. preparationPlan (7 days): topic in 1 line, tasks in max 2 lines, resources in 1 line.
+Generate the JSON response matching the schema keys exactly:
+1. title: Title of the job.
+2. matchScore: number 0-100.
+3. technicalQuestions (5-7): Include question, intention, answer, and feedback.
+4. behavioralQuestions (5-7): Include question, intention, answer, and feedback.
+5. skillGaps: skill name + severity (low/medium/high), no explanations.
+6. preparationPlan (7 days): day, topic, tasks, resources.
 
 Keep all text short and crisp. No long paragraphs anywhere.`
                             }
@@ -129,7 +127,7 @@ Keep all text short and crisp. No long paragraphs anywhere.`
                 ));
 
             if (isRetryable && attempt < MAX_RETRIES) {
-                const delay = 1000 * Math.pow(2, attempt - 1); // 1s, 2s, 4s
+                const delay = 1000 * Math.pow(2, attempt - 1);
                 console.warn(`Gemini API unavailable (attempt ${attempt}/${MAX_RETRIES}), retrying in ${delay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
             } else {
