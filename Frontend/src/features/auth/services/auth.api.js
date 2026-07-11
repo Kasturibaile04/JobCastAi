@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api = axios.create({
-    baseURL: "https://jobcastai.onrender.com",
+    baseURL: "https://jobcastai-1.onrender.com",
     withCredentials: true
 })
 
