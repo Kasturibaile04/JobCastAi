@@ -9,13 +9,13 @@ const mongoose = require("mongoose");
  * 
  * Technical question : [{
  *  question : "",
- *  intenstion : "",
+ *  intention : "",
  *  answer : "",
  *  feedback : "",
  * }]
  * Behavioral question:[{
  *  question : "",
- *  intenstion : "",
+ *  intention : "",
  *  answer : "",
  *  feedback : "",
  * }]
@@ -38,9 +38,9 @@ const technicalQuestionSchema = new mongoose.Schema({
         type : String,
         required : [true,"Question is Required"]
     },
-    intenstion : {
+    intention : {
         type : String,
-        required : [true,"Intenstion is Required"]
+        required : [true,"Intention is Required"]
     },
     answer : {
         type : String,
@@ -58,9 +58,9 @@ const behavioralQuestionSchema = new mongoose.Schema({
         type : String,
         required : [true,"Question is Required"]
     },
-    intenstion : {
+    intention : {
         type : String,
-        required : [true,"Intenstion is Required"]
+        required : [true,"Intention is Required"]
     },
     answer : {
         type : String,
