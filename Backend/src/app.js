@@ -1,24 +1,24 @@
-const express = require("express")
-const cookieParser = require("cookie-parser")
-const cors = require("cors")
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-const app = express()
+const app = express();
 
+// 1. CORS Configuration (First priority)
 app.use(cors({
     origin: "https://job-cast-ai-frontend.vercel.app",
     credentials: true
-}))
+}));
 
-app.use(express.json())
-app.use(cookieParser())
+// 2. Body and Cookie Parsers (MUST run before routes)
+app.use(express.json());
+app.use(cookieParser());
 
-// require all the routes here
-const authRouter = require("./routes/auth.routes")
-const interviewrouter = require("./routes/interview.routes")
+// 3. Route Handlers
+const authRouter = require("./routes/auth.routes");
+const interviewrouter = require("./routes/interview.routes");
 
-// using all the routes here
-app.use("/api/auth", authRouter)
-app.use("/api/interview",interviewrouter)
+app.use("/api/auth", authRouter);
+app.use("/api/interview", interviewrouter);
 
-
-module.exports = app
+module.exports = app;
